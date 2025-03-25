@@ -1,0 +1,40 @@
+.login-container {
+  background: url("../assets/campo.jpg") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+}
+
+.login-container .form-container {
+  width: 50%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  color: white;
+  text-align: center;
+}
+
+.login-button {
+  width: 100%;
+  background-color: #011d3b !important;
+  border-color: #011d3b !important;
+  color: white !important;
+}
+
+.login-button:hover {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+  }
+}

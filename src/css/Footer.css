@@ -1,0 +1,17 @@
+footer {
+  background-color: #011d3b;
+  color: white;
+  padding: 5px;
+  bottom: 0;
+  width: 100%;
+  position: relative;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-icon {
+  font-size: 2rem;
+}

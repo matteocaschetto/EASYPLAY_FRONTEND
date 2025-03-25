@@ -1,0 +1,171 @@
+import React, { useState } from "react";
+import { Button, Form, Container, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/authActions";
+import "../css/Login.css";
+
+const Accedi = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    nome: "",
+    cognome: "",
+    email: ""
+  });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    if (isLogin) {
+      const payload = {
+        username: formData.username,
+        password: formData.password
+      };
+      // Login
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/user/login",
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        );
+
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+          dispatch(setUser(response.data.user));
+          navigate("/areapersonale");
+        } else {
+          setError("Credenziali non valide");
+        }
+      } catch (err) {
+        console.error("Login error: ", err);
+        setError("Errore durante il login. Riprova.");
+      }
+    } else {
+      // Registrazione
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/user/new",
+          formData,
+          {
+            headers: { "Content-Type": "application/json" }
+          }
+        );
+
+        if (response.status === 200) {
+          navigate("/accedi");
+        } else {
+          setError("Registrazione fallita.");
+        }
+      } catch (error) {
+        setError("Errore durante la registrazione.");
+        console.error("Errore:", error);
+      }
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <Container className="d-flex flex-column align-items-center justify-content-center vh-100">
+        <h2 className="mb-4 text-white">
+          {isLogin ? "Accedi a EasyPlay!" : "Registrati a EasyPlay!"}
+        </h2>
+
+        <div className="form-container">
+          <Form onSubmit={handleSubmit} className="">
+            <Form.Group className="mb-3" controlId="username">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            {!isLogin && (
+              <>
+                <Form.Group className="mb-3" controlId="nome">
+                  <Form.Label>Nome</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="cognome">
+                  <Form.Label>Cognome</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="cognome"
+                    value={formData.cognome}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="email">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </>
+            )}
+
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            {error && <Alert variant="danger">{error}</Alert>}
+
+            <Button type="submit" className="login-button">
+              {isLogin ? "Login" : "Registrati"}
+            </Button>
+          </Form>
+        </div>
+
+        <Button
+          variant="link"
+          onClick={() => setIsLogin(!isLogin)}
+          className="mt-3 text-white"
+        >
+          {isLogin
+            ? "Non hai un account? Registrati"
+            : "Hai già un account? Accedi"}
+        </Button>
+      </Container>
+    </div>
+  );
+};
+
+export default Accedi;

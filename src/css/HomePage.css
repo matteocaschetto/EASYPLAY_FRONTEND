@@ -1,0 +1,102 @@
+.home-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.video-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 2;
+  width: 100%;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.cta-button {
+  background-color: #007bff;
+  border-radius: 30px;
+  padding: 10px 30px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  text-align: center;
+}
+
+.card-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #011d3b;
+}
+
+.card .btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.card .btn-primary {
+  background-color: #011d3b;
+}
+
+.card .btn-primary:hover {
+  background-color: #007bff;
+}
+
+.card .btn-secondary {
+  background-color: #f8f9fa;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.card .btn-secondary:hover {
+  background-color: #e2e6ea;
+}
+
+.container-fluid.pt-5 {
+  padding-top: 5rem !important;
+}
+
+.sport-card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
