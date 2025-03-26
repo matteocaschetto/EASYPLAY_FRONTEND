@@ -68,20 +68,34 @@ const Eventi = () => {
               {eventi.map((evento) => (
                 <ListGroup.Item
                   key={evento.id}
-                  className="d-flex justify-content-between align-items-center"
+                  className="d-flex align-items-center mb-3 border rounded p-3"
                 >
-                  <div>
-                    <strong>{evento.tipoEvento}</strong>
-                    <p>{evento.luogo}</p>
-                    <p>{format(new Date(evento.data), "dd/MM/yyyy HH:mm")}</p>
-                    <p>Posti disponibili: {evento.postiDisponibili}</p>
+                  <div className="col-4 col-md-3 text-center">
+                    <div className="btn btn-light w-100">
+                      <strong>
+                        {format(new Date(evento.data), "dd/MM/yyyy ")}
+                      </strong>
+                      <br />
+                      <strong> {evento.orario}</strong>
+                    </div>
                   </div>
-                  <Button
-                    variant="primary"
-                    onClick={() => prenotaEvento(evento.id)}
-                  >
-                    Partecipa
-                  </Button>
+
+                  <div className="col-5 col-md-6 text-center">
+                    <div>
+                      <strong>{evento.tipoEvento}</strong>
+                    </div>
+                    <div>{evento.luogo}</div>
+                    <div>Posti disponibili: {evento.postiDisponibili}</div>
+                  </div>
+
+                  <div className="col-3 col-md-3 text-center">
+                    <Button
+                      variant="primary"
+                      onClick={() => prenotaEvento(evento.id)}
+                    >
+                      Partecipa
+                    </Button>
+                  </div>
                 </ListGroup.Item>
               ))}
             </ListGroup>

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import "../css/CreaEvento.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../redux/userSlice";
 
@@ -15,6 +14,7 @@ const CreaEvento = () => {
   const [titolo, setTitolo] = useState("");
   const [descrizione, setDescrizione] = useState("");
   const [data, setData] = useState("");
+  const [orario, setOrario] = useState(""); // Aggiungi orario
   const [luogo, setLuogo] = useState("");
   const [postiDisponibili, setPostiDisponibili] = useState(1);
   const [maxPartecipanti, setMaxPartecipanti] = useState(1);
@@ -37,6 +37,7 @@ const CreaEvento = () => {
       titolo,
       descrizione,
       data: new Date(data).toISOString().split("T")[0],
+      orario,
       luogo,
       postiDisponibili: parseInt(postiDisponibili),
       maxPartecipanti: parseInt(maxPartecipanti),
@@ -103,6 +104,16 @@ const CreaEvento = () => {
             type="date"
             value={data}
             onChange={(e) => setData(e.target.value)}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicOrario">
+          <Form.Label>Orario</Form.Label>
+          <Form.Control
+            type="time"
+            value={orario}
+            onChange={(e) => setOrario(e.target.value)}
             required
           />
         </Form.Group>

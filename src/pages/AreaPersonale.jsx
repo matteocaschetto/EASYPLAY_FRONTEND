@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserInfo, updateUserAvatar } from "../redux/userSlice";
+import {
+  fetchUserInfo,
+  updateUserAvatar,
+  deleteEvent,
+  deleteReservation
+} from "../redux/userSlice";
 import { Card, Button, Form } from "react-bootstrap";
 
 const AreaPersonale = () => {
@@ -34,6 +39,27 @@ const AreaPersonale = () => {
     }
   };
 
+  const handleDeleteEvent = (eventId) => {
+    dispatch(deleteEvent(eventId))
+      .unwrap()
+      .then(() => {
+        console.log(`Evento ${eventId} eliminato con successo`);
+      })
+      .catch((error) => {
+        console.error("Errore nella cancellazione evento:", error);
+      });
+  };
+
+  const handleDeleteReservation = (reservationId) => {
+    dispatch(deleteReservation(reservationId))
+      .unwrap()
+      .then(() => {
+        console.log(`Prenotazione ${reservationId} annullata con successo`);
+      })
+      .catch((error) => {
+        console.error("Errore nell'annullamento della prenotazione:", error);
+      });
+  };
   if (loading) return <p>Caricamento...</p>;
   if (error) return <p>Errore: {error}</p>;
 
@@ -75,21 +101,43 @@ const AreaPersonale = () => {
         <h4 className="mt-4">Eventi Creati</h4>
 
         {user.eventiCreati && user.eventiCreati.length > 0 ? (
-          <ul>
+          <ul className="list-unstyled">
             {user.eventiCreati.map((evento, index) => {
               const dataFormattata = new Intl.DateTimeFormat("it-IT", {
                 day: "2-digit",
                 month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                timeZone: "Europe/Rome"
+                year: "numeric"
               }).format(new Date(evento.data));
 
               return (
-                <li key={index}>
-                  {evento.titolo}, {evento.luogo}, {evento.tipoEvento},{" "}
-                  {dataFormattata}
+                <li
+                  key={index}
+                  className="d-flex align-items-center mb-3 border rounded p-3"
+                >
+                  <div className="col-4 col-md-3 text-center">
+                    <div className="btn btn-light w-100">
+                      <strong>{dataFormattata}</strong>
+                      <br />
+                      <strong>{evento.orario}</strong>
+                    </div>
+                  </div>
+
+                  <div className="col-5 col-md-6 text-center">
+                    <div>
+                      <strong>{evento.titolo}</strong>
+                    </div>
+                    <div>{evento.luogo}</div>
+                    <div>{evento.tipoEvento}</div>
+                  </div>
+
+                  <div className="col-3 col-md-3 text-center">
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDeleteEvent(evento.id)}
+                    >
+                      Elimina
+                    </Button>
+                  </div>
                 </li>
               );
             })}
@@ -100,7 +148,7 @@ const AreaPersonale = () => {
 
         <h4 className="mt-4">Eventi a cui partecipo</h4>
         {user.eventiPartecipati && user.eventiPartecipati.length > 0 ? (
-          <ul>
+          <ul className="list-unstyled">
             {user.eventiPartecipati.map((evento, index) => {
               const dataFormattata = new Intl.DateTimeFormat("it-IT", {
                 day: "2-digit",
@@ -112,9 +160,34 @@ const AreaPersonale = () => {
               }).format(new Date(evento.data));
 
               return (
-                <li key={index}>
-                  {evento.titolo}, {evento.luogo}, {evento.tipoEvento},{" "}
-                  {dataFormattata}
+                <li
+                  key={index}
+                  className="d-flex align-items-center mb-3 border rounded p-3"
+                >
+                  <div className="col-4 col-md-3 text-center">
+                    <div className="btn btn-light w-100">
+                      <strong>{dataFormattata}</strong>
+                    </div>
+                  </div>
+
+                  <div className="col-5 col-md-6 text-center">
+                    <div>
+                      <strong>{evento.titolo}</strong>
+                    </div>
+                    <div>{evento.luogo}</div>
+                    <div>
+                      <strong>{evento.tipoEvento}</strong>
+                    </div>
+                  </div>
+
+                  <div className="col-3 col-md-3 text-center">
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDeleteReservation(evento.id)}
+                    >
+                      Annulla Prenotazione
+                    </Button>
+                  </div>
                 </li>
               );
             })}
