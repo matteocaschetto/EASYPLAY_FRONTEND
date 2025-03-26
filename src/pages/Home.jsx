@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Row, Col, Card, ListGroup } from "react-bootstrap";
+import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import "../css/HomePage.css";
 import video from "../assets/videocalcio.mp4";
 import foto5 from "../assets/calcio5.jpg";

@@ -7,6 +7,8 @@ import {
   deleteReservation
 } from "../redux/userSlice";
 import { Card, Button, Form } from "react-bootstrap";
+import { format } from "date-fns";
+import { it } from "date-fns/locale";
 
 const AreaPersonale = () => {
   const dispatch = useDispatch();
@@ -103,11 +105,16 @@ const AreaPersonale = () => {
         {user.eventiCreati && user.eventiCreati.length > 0 ? (
           <ul className="list-unstyled">
             {user.eventiCreati.map((evento, index) => {
-              const dataFormattata = new Intl.DateTimeFormat("it-IT", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric"
-              }).format(new Date(evento.data));
+              const dataFormattata = format(
+                new Date(evento.data),
+                "dd/MM/yyyy",
+                { locale: it }
+              );
+              const orarioFormattato = format(
+                new Date(`1970-01-01T${evento.orario}`),
+                "HH:mm",
+                { locale: it }
+              );
 
               return (
                 <li
@@ -118,7 +125,7 @@ const AreaPersonale = () => {
                     <div className="btn btn-light w-100">
                       <strong>{dataFormattata}</strong>
                       <br />
-                      <strong>{evento.orario}</strong>
+                      <strong>{orarioFormattato}</strong>
                     </div>
                   </div>
 
@@ -150,14 +157,16 @@ const AreaPersonale = () => {
         {user.eventiPartecipati && user.eventiPartecipati.length > 0 ? (
           <ul className="list-unstyled">
             {user.eventiPartecipati.map((evento, index) => {
-              const dataFormattata = new Intl.DateTimeFormat("it-IT", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                timeZone: "Europe/Rome"
-              }).format(new Date(evento.data));
+              const dataFormattata = format(
+                new Date(evento.data),
+                "dd/MM/yyyy",
+                { locale: it }
+              );
+              const orarioFormattato = format(
+                new Date(`1970-01-01T${evento.orario}`),
+                "HH:mm",
+                { locale: it }
+              );
 
               return (
                 <li
@@ -167,6 +176,8 @@ const AreaPersonale = () => {
                   <div className="col-4 col-md-3 text-center">
                     <div className="btn btn-light w-100">
                       <strong>{dataFormattata}</strong>
+                      <br />
+                      <strong>{orarioFormattato}</strong>
                     </div>
                   </div>
 

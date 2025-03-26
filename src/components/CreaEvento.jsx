@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import "../css/CreaEvento.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../redux/userSlice";
 
@@ -14,7 +13,7 @@ const CreaEvento = () => {
   const [titolo, setTitolo] = useState("");
   const [descrizione, setDescrizione] = useState("");
   const [data, setData] = useState("");
-  const [orario, setOrario] = useState(""); // Aggiungi orario
+  const [orario, setOrario] = useState("");
   const [luogo, setLuogo] = useState("");
   const [postiDisponibili, setPostiDisponibili] = useState(1);
   const [maxPartecipanti, setMaxPartecipanti] = useState(1);
@@ -50,23 +49,25 @@ const CreaEvento = () => {
         return;
       }
 
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      };
+      const response = await fetch("http://localhost:8080/api/eventi/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(newEvent)
+      });
 
-      const response = await axios.post(
-        "http://localhost:8080/api/eventi/new",
-        newEvent,
-        { headers }
-      );
+      if (!response.ok) {
+        throw new Error("Errore durante la creazione dell'evento.");
+      }
 
+      const data = await response.json();
       setSuccessMessage("Evento creato con successo!");
-      console.log("Evento creato con successo:", response.data);
-      navigate("/home");
+      console.log("Evento creato con successo:", data);
+      navigate("/areaPersonale");
     } catch (error) {
-      console.error("Errore durante la creazione dell'evento:", error);
-      setErrorMessage("Errore durante la creazione dell'evento.");
+      setErrorMessage(error.message);
     }
   };
 

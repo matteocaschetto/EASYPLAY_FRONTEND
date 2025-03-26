@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 export const fetchUserInfo = createAsyncThunk(
   "user/fetchUserInfo",
@@ -10,23 +9,24 @@ export const fetchUserInfo = createAsyncThunk(
       return rejectWithValue("Utente non loggato");
     }
     try {
-      const response = await axios.get("http://localhost:8080/user/me/info", {
+      const response = await fetch("http://localhost:8080/user/me/info", {
+        method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log("Dati ricevuti dall'API:", response.data);
 
-      return response.data;
-    } /* catch (error) {
-      console.error("Errore Axios in fetchUserInfo:", error);
-      return rejectWithValue(
-        error.response ? error.response.data : "Errore nel recupero dati utente"
-      );
-    } */ catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.warn("Token non valido, utente disconnesso.");
-        return rejectWithValue("Utente non loggato");
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.warn("Token non valido, utente disconnesso.");
+          return rejectWithValue("Utente non loggato");
+        }
+        throw new Error("Errore nel recupero dati utente");
       }
-      return rejectWithValue("Errore nel recupero dati utente");
+
+      const data = await response.json();
+      console.log("Dati ricevuti dall'API:", data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -39,27 +39,23 @@ export const updateUserAvatar = createAsyncThunk(
       return rejectWithValue("Token non trovato");
     }
     try {
-      const response = await axios.patch(
-        "http://localhost:8080/user/auth/avatar",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
-          }
-        }
-      );
+      const response = await fetch("http://localhost:8080/user/auth/avatar", {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
 
-      console.log("Dati ricevuti da updateUserAvatar:", response.data);
+      if (!response.ok) {
+        throw new Error("Errore durante l'aggiornamento dell'avatar");
+      }
 
-      return response.data;
+      const data = await response.json();
+      console.log("Dati ricevuti da updateUserAvatar:", data);
+      return data;
     } catch (error) {
-      console.error("Errore Axios in updateUserAvatar:", error);
-      return rejectWithValue(
-        error.response
-          ? error.response.data
-          : "Errore durante l'aggiornamento dell'avatar"
-      );
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -72,9 +68,10 @@ export const deleteEvent = createAsyncThunk(
       return rejectWithValue("Token non trovato");
     }
     try {
-      const response = await axios.delete(
+      const response = await fetch(
         `http://localhost:8080/api/eventi/${eventId}`,
         {
+          method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
             utenteId: getState().user.user.id
@@ -89,12 +86,7 @@ export const deleteEvent = createAsyncThunk(
       console.log(`Evento con ID ${eventId} eliminato con successo`);
       return eventId;
     } catch (error) {
-      console.error("Errore Axios in deleteEvent:", error);
-      return rejectWithValue(
-        error.response
-          ? error.response.data
-          : "Errore durante l'eliminazione dell'evento"
-      );
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -105,16 +97,14 @@ export const deleteReservation = createAsyncThunk(
     const token = getState().auth.token;
 
     if (!token) {
-      console.error("Token di autenticazione mancante");
       return rejectWithValue("Token non trovato");
     }
 
-    console.log("Token:", token);
-
     try {
-      const response = await axios.delete(
+      const response = await fetch(
         `http://localhost:8080/api/prenotazioni/${reservationId}`,
         {
+          method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -122,7 +112,7 @@ export const deleteReservation = createAsyncThunk(
       );
 
       if (response.status !== 204) {
-        throw new Error("Errore nell'annullamento della prenotazione");
+        throw new Error("Errore durante l'annullamento della prenotazione");
       }
 
       console.log(
@@ -130,12 +120,7 @@ export const deleteReservation = createAsyncThunk(
       );
       return reservationId;
     } catch (error) {
-      console.error("Errore Axios in deleteReservation:", error);
-      return rejectWithValue(
-        error.response
-          ? error.response.data
-          : "Errore durante l'annullamento della prenotazione"
-      );
+      return rejectWithValue(error.message);
     }
   }
 );

@@ -76,7 +76,12 @@ const Eventi = () => {
                         {format(new Date(evento.data), "dd/MM/yyyy ")}
                       </strong>
                       <br />
-                      <strong> {evento.orario}</strong>
+                      <strong>
+                        {format(
+                          new Date(`1970-01-01T${evento.orario}`),
+                          "HH:mm"
+                        )}
+                      </strong>
                     </div>
                   </div>
 

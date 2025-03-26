@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Container, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/authActions";
 import "../css/Login.css";
@@ -32,48 +31,45 @@ const Accedi = () => {
         username: formData.username,
         password: formData.password
       };
-      // Login
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/user/login",
-          payload,
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        );
 
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
-          dispatch(setUser(response.data.user));
+      try {
+        const response = await fetch("http://localhost:8080/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.token) {
+          localStorage.setItem("token", data.token);
+          dispatch(setUser(data.user));
           navigate("/areapersonale");
         } else {
           setError("Credenziali non valide");
         }
       } catch (err) {
-        console.error("Login error: ", err);
+        console.error("Login error:", err);
         setError("Errore durante il login. Riprova.");
       }
     } else {
-      // Registrazione
       try {
-        const response = await axios.post(
-          "http://localhost:8080/user/new",
-          formData,
-          {
-            headers: { "Content-Type": "application/json" }
-          }
-        );
+        const response = await fetch("http://localhost:8080/user/new", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
 
-        if (response.status === 200) {
+        if (response.ok) {
           navigate("/accedi");
         } else {
           setError("Registrazione fallita.");
         }
       } catch (error) {
+        console.error("Errore durante la registrazione:", error);
         setError("Errore durante la registrazione.");
-        console.error("Errore:", error);
       }
     }
   };
