@@ -62,16 +62,16 @@ const Eventi = () => {
   return (
     <div className="eventi-container">
       <Container fluid className=" px-4 pt-5 mb-5">
-        <Row className="justify-content-center">
+        <Row className=" justify-content-center">
           <Col md={8}>
             <h3>Eventi a cui partecipare</h3>
             <ListGroup>
               {eventi.map((evento) => (
                 <ListGroup.Item
                   key={evento.id}
-                  className="d-flex align-items-center mb-3 border rounded p-3"
+                  className=" d-flex align-items-center mb-3 border rounded p-3"
                 >
-                  <div className="col-4 col-md-3 text-center">
+                  <div className="col-4 col-md-3 text-center ">
                     <div className="btn btn-light w-100">
                       <strong>
                         {format(new Date(evento.data), "dd/MM/yyyy ")}

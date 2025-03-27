@@ -9,3 +9,25 @@
   background-color: #007bff !important;
   border-color: #007bff !important;
 }
+
+/* .eventi-container {
+  background: url("../assets/giocatore-di-padel-servizio.png") no-repeat center
+    center fixed;
+  background-color: white;
+  background-size: cover;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+/* .box-eventi {
+  width: 50%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  color: #011d3b;
+} */

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Container, Alert } from "react-bootstrap";
+import { Form, Button, Container, Alert, Row, Col } from "react-bootstrap";
 import "../css/CreaEvento.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,96 +78,150 @@ const CreaEvento = () => {
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         {successMessage && <Alert variant="success">{successMessage}</Alert>}
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicTitolo">
-            <Form.Label>Titolo</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Inserisci il titolo dell'evento"
-              value={titolo}
-              onChange={(e) => setTitolo(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <div className="mb-3">
+            <Row>
+              <Col md={6} xs={12}>
+                <Form.Group className="mb-3" controlId="formBasicTitolo">
+                  <Form.Label>
+                    <strong>Titolo</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Inserisci il titolo dell'evento"
+                    value={titolo}
+                    onChange={(e) => setTitolo(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3" controlId="formBasicDescrizione">
-            <Form.Label>Descrizione</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="Inserisci la descrizione dell'evento"
-              value={descrizione}
-              onChange={(e) => setDescrizione(e.target.value)}
-            />
-          </Form.Group>
+              <Col md={6} xs={12}>
+                <Form.Group className="mb-3" controlId="formBasicDescrizione">
+                  <Form.Label>
+                    <strong>Descrizione</strong>
+                  </Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={1}
+                    placeholder="Inserisci la descrizione dell'evento"
+                    value={descrizione}
+                    onChange={(e) => setDescrizione(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </div>
 
-          <Form.Group className="mb-3" controlId="formBasicData">
-            <Form.Label>Data</Form.Label>
-            <Form.Control
-              type="date"
-              value={data}
-              onChange={(e) => setData(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <div className="mb-3">
+            <Row>
+              <Col md={6} xs={12}>
+                <Form.Group className="mb-3" controlId="formBasicData">
+                  <Form.Label>
+                    <strong>Data</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={data}
+                    onChange={(e) => setData(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3" controlId="formBasicOrario">
-            <Form.Label>Orario</Form.Label>
-            <Form.Control
-              type="time"
-              value={orario}
-              onChange={(e) => setOrario(e.target.value)}
-              required
-            />
-          </Form.Group>
+              <Col md={6} xs={12}>
+                <Form.Group className="mb-3" controlId="formBasicOrario">
+                  <Form.Label>
+                    <strong>Orario</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="time"
+                    value={orario}
+                    onChange={(e) => setOrario(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </div>
 
-          <Form.Group className="mb-3" controlId="formBasicLuogo">
-            <Form.Label>Luogo</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Inserisci il luogo dell'evento"
-              value={luogo}
-              onChange={(e) => setLuogo(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <div className="mb-3">
+            <Row>
+              <Col md={6} xs={12}>
+                <Form.Group className="mb-3" controlId="formBasicLuogo">
+                  <Form.Label>
+                    <strong>Luogo</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Inserisci il luogo dell'evento"
+                    value={luogo}
+                    onChange={(e) => setLuogo(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3" controlId="formBasicPostiDisponibili">
-            <Form.Label>Posti Disponibili</Form.Label>
-            <Form.Control
-              type="number"
-              min="1"
-              value={postiDisponibili}
-              onChange={(e) => setPostiDisponibili(e.target.value)}
-              required
-            />
-          </Form.Group>
+              <Col md={6} xs={12}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="formBasicPostiDisponibili"
+                >
+                  <Form.Label>
+                    <strong>Posti Disponibili</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    value={postiDisponibili}
+                    onChange={(e) => setPostiDisponibili(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </div>
 
-          <Form.Group className="mb-3" controlId="formBasicMaxPartecipanti">
-            <Form.Label>Numero Massimo di Partecipanti</Form.Label>
-            <Form.Control
-              type="number"
-              min={postiDisponibili}
-              value={maxPartecipanti}
-              onChange={(e) => setMaxPartecipanti(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <div className="mb-3">
+            <Row>
+              <Col md={6} xs={12}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="formBasicMaxPartecipanti"
+                >
+                  <Form.Label>
+                    <strong>Numero Massimo di Partecipanti</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    min={postiDisponibili}
+                    value={maxPartecipanti}
+                    onChange={(e) => setMaxPartecipanti(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3" controlId="formBasicTipoEvento">
-            <Form.Label>Tipo Evento</Form.Label>
-            <Form.Control
-              as="select"
-              value={tipoEvento}
-              onChange={(e) => setTipoEvento(e.target.value)}
-              required
-            >
-              <option value="">Seleziona un tipo</option>
-              <option value="calcio5">Calcio a 5</option>
-              <option value="calcio7">Calcio a 7</option>
-              <option value="calcio11">Calcio a 11</option>
-              <option value="padel">Padel</option>
-            </Form.Control>
-          </Form.Group>
+              <Col md={6} xs={12}>
+                <Form.Group className="mb-3" controlId="formBasicTipoEvento">
+                  <Form.Label>
+                    <strong>Tipo Evento</strong>
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={tipoEvento}
+                    onChange={(e) => setTipoEvento(e.target.value)}
+                    required
+                  >
+                    <option value="">Seleziona un tipo</option>
+                    <option value="calcio5">Calcio a 5</option>
+                    <option value="calcio7">Calcio a 7</option>
+                    <option value="calcio11">Calcio a 11</option>
+                    <option value="padel">Padel</option>
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+          </div>
 
           <Button
             className="crea-evento-button"
