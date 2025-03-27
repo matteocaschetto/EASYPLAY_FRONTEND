@@ -23,7 +23,7 @@ export const fetchUserInfo = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log("Dati ricevuti dall'API:", data);
+      console.log("✅ Dati ricevuti dall'API:", data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -33,7 +33,7 @@ export const fetchUserInfo = createAsyncThunk(
 
 export const updateUserAvatar = createAsyncThunk(
   "user/updateUserAvatar",
-  async (formData, { getState, rejectWithValue }) => {
+  async (formData, { getState, rejectWithValue, dispatch }) => {
     const token = getState().auth.token;
     if (!token) {
       return rejectWithValue("Token non trovato");
@@ -53,6 +53,8 @@ export const updateUserAvatar = createAsyncThunk(
 
       const data = await response.json();
       console.log("Dati ricevuti da updateUserAvatar:", data);
+      dispatch(fetchUserInfo());
+
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -96,6 +98,7 @@ export const deleteReservation = createAsyncThunk(
   async (reservationId, { getState, rejectWithValue }) => {
     const token = getState().auth.token;
 
+    console.log("🔑 Token inviato:", token);
     if (!token) {
       return rejectWithValue("Token non trovato");
     }
@@ -111,7 +114,18 @@ export const deleteReservation = createAsyncThunk(
         }
       );
 
-      if (response.status !== 204) {
+      /* if (response.status !== 204) {
+        throw new Error("Errore durante l'annullamento della prenotazione");
+      }
+
+      console.log(
+        `Prenotazione con ID ${reservationId} annullata con successo`
+      );
+      return reservationId;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    } */
+      if (!response.ok) {
         throw new Error("Errore durante l'annullamento della prenotazione");
       }
 

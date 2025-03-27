@@ -29,6 +29,10 @@ const AreaPersonale = () => {
     dispatch(fetchUserInfo());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("Stato utente aggiornato:", user);
+  }, [user]);
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -56,10 +60,10 @@ const AreaPersonale = () => {
     dispatch(deleteReservation(reservationId))
       .unwrap()
       .then(() => {
-        console.log(`Prenotazione ${reservationId} annullata con successo`);
+        console.log(`✅ Prenotazione ${reservationId} annullata con successo`);
       })
       .catch((error) => {
-        console.error("Errore nell'annullamento della prenotazione:", error);
+        console.error("❌ Errore nell'annullamento della prenotazione:", error);
       });
   };
   if (loading) return <p>Caricamento...</p>;
@@ -86,19 +90,15 @@ const AreaPersonale = () => {
             </h3>
             <p>{user?.email}</p>
           </div>
+          <Form className="mt-3">
+            <Form.Group className="ms-5">
+              <Form.Control type="file" onChange={handleFileChange} />
+              <Button variant="primary" className="mt-2" onClick={handleUpload}>
+                Carica
+              </Button>
+            </Form.Group>
+          </Form>
         </div>
-
-        <Form className="mt-3">
-          <Form.Group className="">
-            <Form.Label>Cambia immagine profilo</Form.Label>
-            <Form.Control type="file" onChange={handleFileChange} />
-          </Form.Group>
-          {
-            <Button variant="primary" className="mt-2" onClick={handleUpload}>
-              Carica
-            </Button>
-          }
-        </Form>
 
         <h4 className="mt-4">Eventi Creati</h4>
 

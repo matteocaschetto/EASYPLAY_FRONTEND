@@ -15,6 +15,14 @@ const Accedi = () => {
     email: ""
   });
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  {
+    success && <Alert variant="success">{success}</Alert>;
+  }
+  {
+    error && <Alert variant="danger">{error}</Alert>;
+  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -63,7 +71,7 @@ const Accedi = () => {
         });
 
         if (response.ok) {
-          navigate("/accedi");
+          setSuccess("Registrazione avvenuta con successo!");
         } else {
           setError("Registrazione fallita.");
         }
