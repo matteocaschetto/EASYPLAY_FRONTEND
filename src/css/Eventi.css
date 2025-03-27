@@ -1,0 +1,11 @@
+.partecipa-evento {
+  width: 100%;
+  background-color: #011d3b !important;
+  border-color: #011d3b !important;
+  color: white !important;
+}
+
+.partecipa-evento:hover {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+}

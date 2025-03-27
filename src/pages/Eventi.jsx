@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { format } from "date-fns";
+import "../css/Eventi.css";
 
 const Eventi = () => {
   const [eventi, setEventi] = useState([]);
@@ -60,7 +61,7 @@ const Eventi = () => {
 
   return (
     <div className="eventi-container">
-      <Container fluid className="px-4 pt-5 mb-5">
+      <Container fluid className=" px-4 pt-5 mb-5">
         <Row className="justify-content-center">
           <Col md={8}>
             <h3>Eventi a cui partecipare</h3>
@@ -95,6 +96,7 @@ const Eventi = () => {
 
                   <div className="col-3 col-md-3 text-center">
                     <Button
+                      className="partecipa-evento"
                       variant="primary"
                       onClick={() => prenotaEvento(evento.id)}
                     >

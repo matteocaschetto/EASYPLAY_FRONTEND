@@ -1,17 +1,40 @@
-.crea-evento-container {
-  background: url("../assets/campo.jpg") no-repeat center center fixed;
+.crea-evento-bg {
+  background: url("../assets/player.png") no-repeat center center fixed;
+  background-color: #011d3b;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .form-container {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px;
-  border-radius: 10px;
+  width: 50%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  color: white;
+  text-align: left;
+}
+
+.crea-evento-button {
   width: 100%;
-  max-width: 400px;
+  background-color: #011d3b !important;
+  border-color: #011d3b !important;
+  color: white !important;
+}
+
+.crea-evento-button:hover {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+  }
 }
