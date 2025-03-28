@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Image, Card } from "react-bootstrap";
 import logo from "../assets/LOGO_EASYPLAY-02.jpg";
+import "../css/ChiSiamo.css";
 const ChiSiamo = () => {
   return (
     <div className="chi-siamo-container">

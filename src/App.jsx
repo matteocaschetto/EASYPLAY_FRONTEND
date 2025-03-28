@@ -9,6 +9,7 @@ import CreaEvento from "./components/CreaEvento";
 import AreaPersonale from "./pages/AreaPersonale";
 import Accedi from "./pages/Accedi";
 import ChiSiamo from "./pages/ChiSiamo";
+import "./App.css";
 
 const App = () => {
   return (

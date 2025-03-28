@@ -1,3 +1,7 @@
+h1 {
+  font-style: italic;
+}
+
 .crea-evento-bg {
   background: url("../assets/player.png") no-repeat center center fixed;
   background-color: white;
