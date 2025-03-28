@@ -99,6 +99,8 @@ export const deleteReservation = createAsyncThunk(
     const token = getState().auth.token;
 
     console.log("🔑 Token inviato:", token);
+    console.log("📛 ID prenotazione inviato:", reservationId);
+
     if (!token) {
       return rejectWithValue("Token non trovato");
     }
@@ -114,17 +116,6 @@ export const deleteReservation = createAsyncThunk(
         }
       );
 
-      /* if (response.status !== 204) {
-        throw new Error("Errore durante l'annullamento della prenotazione");
-      }
-
-      console.log(
-        `Prenotazione con ID ${reservationId} annullata con successo`
-      );
-      return reservationId;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    } */
       if (!response.ok) {
         throw new Error("Errore durante l'annullamento della prenotazione");
       }

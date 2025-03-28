@@ -6,18 +6,23 @@ import {
   deleteEvent,
   deleteReservation
 } from "../redux/userSlice";
-import { Card, Button, Form } from "react-bootstrap";
+import { logout } from "../redux/authActions";
+import { Card, Button, Form, Modal } from "react-bootstrap";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
+import "../css/AreaPersonale.css";
 
 const AreaPersonale = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
   console.log("Dati utente nello stato Redux:", user);
   const token = useSelector((state) => state.user.token);
   const loading = useSelector((state) => state.user.status === "loading");
   const error = useSelector((state) => state.user.error);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -28,6 +33,11 @@ const AreaPersonale = () => {
   useEffect(() => {
     dispatch(fetchUserInfo());
   }, [dispatch]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/accedi");
+  };
 
   useEffect(() => {
     console.log("Stato utente aggiornato:", user);
@@ -57,6 +67,7 @@ const AreaPersonale = () => {
   };
 
   const handleDeleteReservation = (reservationId) => {
+    console.log("🟡 DEBUG: Eliminazione prenotazione con ID:", reservationId);
     dispatch(deleteReservation(reservationId))
       .unwrap()
       .then(() => {
@@ -66,6 +77,15 @@ const AreaPersonale = () => {
         console.error("❌ Errore nell'annullamento della prenotazione:", error);
       });
   };
+
+  const handleEditClick = () => {
+    setIsEditing(true); // Mostra il modale
+  };
+
+  const handleClose = () => {
+    setIsEditing(false); // Nasconde il modale
+  };
+
   if (loading) return <p>Caricamento...</p>;
   if (error) return <p>Errore: {error}</p>;
 
@@ -81,23 +101,54 @@ const AreaPersonale = () => {
               "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
             }
             alt="Avatar"
-            className="rounded-circle"
-            style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            className="rounded-circle me-4"
+            style={{ width: "150px", height: "150px", objectFit: "cover" }}
           />
           <div className="ms-3">
             <h3>
               {user?.nome} {user?.cognome}
             </h3>
             <p>{user?.email}</p>
+            <Button className="modifica-utente-btn" onClick={handleEditClick}>
+              Modifica utente
+            </Button>
           </div>
-          <Form className="mt-3">
-            <Form.Group className="ms-5">
-              <Form.Control type="file" onChange={handleFileChange} />
-              <Button variant="primary" className="mt-2" onClick={handleUpload}>
-                Carica
+
+          <Modal show={isEditing} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modifica Utente</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form className="">
+                <Form.Group className="">
+                  <Form.Control type="file" onChange={handleFileChange} />
+                  <Button
+                    variant="primary"
+                    className="mt-2"
+                    onClick={handleUpload}
+                  >
+                    Carica
+                  </Button>
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                className="me-auto"
+                variant="danger"
+                onClick={handleLogout}
+              >
+                Logout
               </Button>
-            </Form.Group>
-          </Form>
+              <Button
+                className="ms-auto"
+                variant="secondary"
+                onClick={handleClose}
+              >
+                Annulla
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
 
         <h4 className="mt-4">Eventi Creati</h4>

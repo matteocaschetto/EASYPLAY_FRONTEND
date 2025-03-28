@@ -1,11 +1,11 @@
-.partecipa-evento {
+.modifica-utente-btn {
   width: 100%;
   background-color: #011d3b !important;
   border-color: #011d3b !important;
   color: white !important;
 }
 
-.partecipa-evento:hover {
+.modifica-utente-btn:hover {
   background-color: #007bff !important;
   border-color: #007bff !important;
 }

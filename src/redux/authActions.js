@@ -8,6 +8,7 @@ export const setToken = (token) => ({
   payload: token
 });
 
-export const logout = () => ({
-  type: "LOGOUT"
-});
+export const logout = () => {
+  localStorage.removeItem("token");
+  return { type: "LOGOUT" };
+};

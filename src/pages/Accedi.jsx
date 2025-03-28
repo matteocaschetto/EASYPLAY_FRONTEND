@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState /* , useEffect  */ } from "react";
 import { Button, Form, Container, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../redux/authActions";
+import { useDispatch /* , useSelector */ } from "react-redux";
+import { setUser, setToken } from "../redux/authActions";
 import "../css/Login.css";
 
 const Accedi = () => {
@@ -16,21 +16,22 @@ const Accedi = () => {
   });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  {
-    success && <Alert variant="success">{success}</Alert>;
-  }
-  {
-    error && <Alert variant="danger">{error}</Alert>;
-  }
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  /* const token = useSelector((state) => state.auth.token); */
+
+  /* useEffect(() => {
+    if (token) {
+      navigate("/areapersonale");
+    }
+  }, [token, navigate]); */
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  /* const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
@@ -53,6 +54,7 @@ const Accedi = () => {
 
         if (response.ok && data.token) {
           localStorage.setItem("token", data.token);
+          dispatch(setToken(data.token));
           dispatch(setUser(data.user));
           navigate("/areapersonale");
         } else {
@@ -72,6 +74,59 @@ const Accedi = () => {
 
         if (response.ok) {
           setSuccess("Registrazione avvenuta con successo!");
+          {success && <Alert variant="succes">{success}</Alert>}
+        } else {
+          setError("Registrazione fallita.");
+        }
+      } catch (error) {
+        console.error("Errore durante la registrazione:", error);
+        setError("Errore durante la registrazione.");
+      }
+    }
+  }; */
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    if (isLogin) {
+      try {
+        const response = await fetch("http://localhost:8080/user/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: formData.username,
+            password: formData.password
+          })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.token) {
+          {
+            success && <Alert variant="success">{success}</Alert>;
+          }
+          dispatch(setToken(data.token));
+          dispatch(setUser(data.user));
+          navigate("/areapersonale");
+        } else {
+          setError("Credenziali non valide");
+        }
+      } catch {
+        setError("Errore durante il login.");
+      }
+    } else {
+      try {
+        const response = await fetch("http://localhost:8080/user/new", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          setSuccess("Registrazione avvenuta con successo!");
+          {
+            success && <Alert variant="succes">{success}</Alert>;
+          }
         } else {
           setError("Registrazione fallita.");
         }
@@ -81,7 +136,6 @@ const Accedi = () => {
       }
     }
   };
-
   return (
     <div className="login-container">
       <Container className="d-flex flex-column align-items-center justify-content-center vh-100">

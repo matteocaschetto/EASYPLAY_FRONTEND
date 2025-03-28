@@ -31,7 +31,7 @@ const Home = () => {
         </div>
       </div>
 
-      <Container fluid className="px-4 pt-5">
+      <Container fluid className="px-4 pt-4">
         <Row className="justify-content-center">
           <Col md={3} className="mb-4">
             <Card>
